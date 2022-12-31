@@ -1,3 +1,6 @@
+# WorldClim data files (too large)
+worldclim_data/
+
 # History files
 .Rhistory
 .Rapp.history
