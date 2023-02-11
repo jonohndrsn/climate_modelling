@@ -187,7 +187,7 @@ highland <-
   (elev >= 1500) * ((sl_arid & !arid) | (sl_tropical & !tropical) | (sl_subtropical & !subtropical) | (sl_temperate & !temperate) | (sl_boreal & !boreal) | (sl_polar & !polar))
 plot(highland)
 
-rm(sea_level_temps, sl_mean_temp, sl_aridity, sl_warm_months, sl_arid, sl_tropical, sl_subtropical, sl_temperate, sl_boreal, sl_polar)
+rm(sea_level_temps, sl_mean_temp, sl_dryness_threshold, sl_aridity, sl_warm_months, sl_arid, sl_tropical, sl_subtropical, sl_temperate, sl_boreal, sl_polar)
 gc()
 
 #---------------------------
@@ -265,3 +265,9 @@ trewartha <-
   5*subtropical_dry + 6*subtropical_humid + 7*temperate_oceanic + 8*temperate_continental +
   9*boreal_zone + 10*polar_tundra + 11*polar_icecap + 12*highland
 plot(trewartha, col = c("#990100", "#ff3300", "#ffff33", "#ff9934", "#669900", "#336601", "#0ff59b", "#0099ff", "#0066cb", "#b9b9b9", "#99ffff", "#feccff"), zlim = c(1, 12))
+
+# export map
+
+png('output/trewartha_map_2.5m.png', height = nrow(trewartha), width = ncol(trewartha))
+plot(trewartha, col = c("#990100", "#ff3300", "#ffff33", "#ff9934", "#669900", "#336601", "#0ff59b", "#0099ff", "#0066cb", "#b9b9b9", "#99ffff", "#feccff"), zlim = c(1, 12), maxpixels = ncell(trewartha))
+dev.off()

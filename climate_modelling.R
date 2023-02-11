@@ -27,7 +27,7 @@ precs <-
   stack()
 
 elev <-
-  raster("worldclim_data/elevation/wc2.1_2.5m_elev.tif")
+  raster("worldclim_data/elevation/wc2.1_30s_elev.tif")
 
 # name the layers of raster stacks
 months <-
@@ -82,3 +82,16 @@ mean_temp <-
 plot(mean_temp, col = pal(100), zlim = c(-80, 50))
 
 plot(stack(max_temp, min_temp, mean_temp), col = pal(100), zlim = c(-80, 50))
+
+#---------------------------
+
+### OCEANIA ###
+
+# split precs into hemispheres
+oceania <-
+  as(extent(100, 180, -50, -10), 'SpatialPolygons')
+
+oceania_elev <-
+  crop(elev, oceania)
+
+oceania_elev
