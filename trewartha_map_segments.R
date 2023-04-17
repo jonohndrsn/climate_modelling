@@ -32,7 +32,7 @@ for (long in c(-180, -90, 0, 90)) {
 
 LOOP <- 0
 # set resolution
-RESOLUTION <- "30s"
+RESOLUTION <- "2.5m"
 
 for (segment in segments) {
   
@@ -248,7 +248,7 @@ for (segment in segments) {
   plot(trewartha, col = c("#990100", "#ff3300", "#ffff33", "#ff9934", "#669900", "#336601", "#0ff59b", "#0099ff", "#0066cb", "#b9b9b9", "#99ffff", "#feccff"), zlim = c(1, 12))
   
   trewartha %>%
-    writeRaster(filename = glue("segments/trewartha_map_{LOOP}.tif"))
+    writeRaster(filename = glue("segments/trewartha_map_{RESOLUTION}_{LOOP}.tif"))
   
   png(glue("segments/trewartha_map_{LOOP}.png"), height = nrow(trewartha), width = ncol(trewartha))
   plot(trewartha, col = c("#990100", "#ff3300", "#ffff33", "#ff9934", "#669900", "#336601", "#0ff59b", "#0099ff", "#0066cb", "#b9b9b9", "#99ffff", "#feccff"), zlim = c(1, 12), maxpixels = ncell(trewartha))
@@ -282,14 +282,14 @@ for (i in 1:16) {
   
   if (i == 1) {
     global_trewartha <-
-      raster(glue("segments/trewartha_map_{i}.tif"))
+      raster(glue("segments/trewartha_map_{RESOLUTION}_{i}.tif"))
   
     } else {
       
     global_trewartha <-
-      raster("segments/global_trewartha.tif")      
+      raster("segments/global_trewartha_{RESOLUTION}.tif")      
     trewartha <-
-      raster(glue("segments/trewartha_map_{i}.tif"))
+      raster(glue("segments/trewartha_map_{RESOLUTION}_{i}.tif"))
     global_trewartha <-
       merge(global_trewartha, trewartha)  
   
@@ -297,19 +297,34 @@ for (i in 1:16) {
   
   plot(global_trewartha, col = c("#990100", "#ff3300", "#ffff33", "#ff9934", "#669900", "#336601", "#0ff59b", "#0099ff", "#0066cb", "#b9b9b9", "#99ffff", "#feccff"), zlim = c(1, 12))
   global_trewartha %>%
-    writeRaster(filename = glue("segments/global_trewartha.tif"), overwrite = TRUE)
+    writeRaster(filename = glue("segments/global_trewartha_{RESOLUTION}.tif"), overwrite = TRUE)
   
   rm(trewartha, global_trewartha)
   gc()
   removeTmpFiles(h=0)
 }
 
-global_trewartha <- raster("segments/global_trewartha.tif")
+global_trewartha <- raster("segments/global_trewartha_{RESOLUTION}.tif")
 global_trewartha %>%
-  writeRaster(filename = glue("output/global_trewartha.tif"), overwrite = TRUE)
+  writeRaster(filename = glue("output/global_trewartha_{RESOLUTION}.tif"), overwrite = TRUE)
 global_trewartha %>%
-  writeRaster(filename = glue("output/global_trewartha_8bit.tif"), datatype='INT1U', overwrite = TRUE)
+  writeRaster(filename = glue("output/global_trewartha_{RESOLUTION}_8bit.tif"), datatype='INT1U', overwrite = TRUE)
 
 png(glue("output/trewartha_map_{RESOLUTION}.png"), height = nrow(global_trewartha)/2, width = ncol(global_trewartha)/2)
 plot(global_trewartha, col = c("#990100", "#ff3300", "#ffff33", "#ff9934", "#669900", "#336601", "#0ff59b", "#0099ff", "#0066cb", "#b9b9b9", "#99ffff", "#feccff"), zlim = c(1, 12), maxpixels = ncell(global_trewartha))
 dev.off()
+
+# # separate into 12 raster files
+# 
+# for (i in 1:12) {
+#   global_trewartha <- raster("segments/global_trewartha_{RESOLUTION}.tif")
+#   global_trewartha[global_trewartha != i] <- NA
+#   global_trewartha %>%
+#     writeRaster(filename = glue("segments/global_trewartha_{RESOLUTION}_{i}.tif"), datatype='INT1U', overwrite = TRUE)
+#   rm(global_trewartha)
+#   gc()
+#   removeTmpFiles(h=0)
+#   print(i)
+# }
+
+  

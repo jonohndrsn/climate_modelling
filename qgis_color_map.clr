@@ -1,0 +1,12 @@
+1 153 1 0 255 tropical (rainy)
+2 255 51 0 255 tropical (wet and dry)
+3 255 255 51 255 arid (desert)
+4 255 153 52 255 arid (steppe)
+5 102 153 0 255 subtropical (dry)
+6 51 102 1 255 subtropical (humid)
+7 15 245 155 255 temperate (oceanic)
+8 0 153 255 255 temperate (continental)
+9 0 102 203 255 boreal
+10 185 185 185 255 polar (tundra)
+11 153 255 255 255 polar (icecap)
+12 254 204 255 255 highland
